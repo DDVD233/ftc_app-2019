@@ -92,12 +92,14 @@ public class Mecanum19Teleop extends LinearOpMode {
 //                armPosition -= ARM_SPEED;
 
             // Use gamepad X & B to open and close the claw
-            if (gamepad1.y)
-                robot.liftM.setPower(1);
-            else if (gamepad1.a)
-                robot.liftM.setPower(-1);
-            else
-                robot.liftM.setPower(0);
+            robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
+
+            if (gamepad1.left_bumper) {
+                double sweeperPower = (robot.sweeper.getPower()==0.0)?1.0:0.0;
+                robot.sweeper.setPower(sweeperPower);
+            }
+
+
 
             // Move both servos to new position.
             //          armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);

@@ -64,6 +64,7 @@ public class Mecanum19 {
     public DcMotor LRMotor = null;
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
+    public DcMotor sweeper = null;
     public BNO055IMU gyro = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
@@ -97,14 +98,13 @@ public class Mecanum19 {
         LRMotor = hwMap.get(DcMotor.class, "LRMotor");
         RRMotor = hwMap.get(DcMotor.class, "RRMotor");
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
-
         liftM  = hwMap.get(DcMotor.class, "liftM");
         // Set all motors to zero power
         LFMotor.setPower(0);
         RFMotor.setPower(0);
         LRMotor.setPower(0);
         RRMotor.setPower(0);
-
+        sweeper.setPower(0);
         liftM.setPower(0);
 
 
@@ -114,6 +114,9 @@ public class Mecanum19 {
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         LRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
