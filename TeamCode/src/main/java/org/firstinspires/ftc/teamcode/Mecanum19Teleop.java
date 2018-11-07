@@ -136,7 +136,8 @@ public class Mecanum19Teleop extends LinearOpMode {
             //telemetry.addData("left",  "%.2f", left);
             //telemetry.addData("right", "%.2f", right);
             telemetry.update();
-
+            // test
+            int test = 0;
 
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
             telemetry.addData("LRMotor",  "%.2f", LRspeed);
