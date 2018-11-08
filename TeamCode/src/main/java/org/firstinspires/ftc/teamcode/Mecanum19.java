@@ -65,6 +65,7 @@ public class Mecanum19 {
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
     public DcMotor sweeper = null;
+    public DcMotor mainArm = null;
     public BNO055IMU gyro = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
@@ -99,6 +100,8 @@ public class Mecanum19 {
         RRMotor = hwMap.get(DcMotor.class, "RRMotor");
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
+        mainArm = hwMap.get(DcMotor.class, "mainArm");
+
         // Set all motors to zero power
         LFMotor.setPower(0);
         RFMotor.setPower(0);

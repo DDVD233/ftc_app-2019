@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.legacy.Mecanum1;
-import org.firstinspires.ftc.teamcode.legacy.MecanumDrive;
 import org.firstinspires.ftc.teamcode.legacy.Team;
 
 
@@ -59,7 +58,6 @@ public class Mec19FCrater extends LinearOpMode {
         mecanumDrive.setWheelPower(0,0,0,0);
 
         waitForStart();
-
 
     }
 }
