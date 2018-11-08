@@ -32,9 +32,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.legacy.Mecanum1;
-import org.firstinspires.ftc.teamcode.legacy.Team;
 
+/**
+ * This is the autonomous mode for the robot Mecanum19.
+ * Run this program if the robot is facing the crater at the start of the match.
+ * It is still under work.
+ */
 
 @Autonomous(name="Mec19FCrater")
 public class Mec19FCrater extends LinearOpMode {

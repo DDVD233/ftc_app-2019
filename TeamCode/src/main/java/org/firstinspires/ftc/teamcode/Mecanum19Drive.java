@@ -21,7 +21,10 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
 
 /**
  * Created by David Dai on 11/2/18.
- * Robotics
+ * This class is compatitble with the robot Mecanum19.
+ * It contains all the convenient functions for the autonomous mode.
+ * Some you may want to use:
+ *
  */
 
 public class Mecanum19Drive {
