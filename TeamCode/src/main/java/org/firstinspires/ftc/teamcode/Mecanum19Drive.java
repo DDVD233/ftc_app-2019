@@ -17,12 +17,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Mecanum19;
 import org.firstinspires.ftc.teamcode.legacy.Direction;
-import org.firstinspires.ftc.teamcode.legacy.Team;
 
 /**
  * Created by David Dai on 11/2/18.
+ * Robotics
  */
 
 public class Mecanum19Drive {
@@ -44,13 +43,13 @@ public class Mecanum19Drive {
     //private double[] slopeMap = new double[181];
 
     /** Constructor
-     * @param robotInstance The robot instance initialized using method robot.init(hardwareMap)
      * @param opModeInstance The opMode instance. Most of time it's the class itself.
      *                       If that's the case, just use {@code this} for this parameter.
      */
-    Mecanum19Drive(Mecanum19 robotInstance, LinearOpMode opModeInstance) {
-        robot = robotInstance;
+    Mecanum19Drive(LinearOpMode opModeInstance) {
+        robot = new Mecanum19();
         opMode = opModeInstance;
+        robot.init(opModeInstance.hardwareMap);
     }
 
     private void resetEncoders() {
@@ -70,6 +69,16 @@ public class Mecanum19Drive {
         robot.RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.RRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    void setWheelPower(double LFPower,
+                       double RFPower,
+                       double LRPower,
+                       double RRPower) {
+        robot.LFMotor.setPower(LFPower);
+        robot.RFMotor.setPower(RFPower);
+        robot.LRMotor.setPower(LRPower);
+        robot.RRMotor.setPower(RRPower);
     }
 
     // From Mecanum 1. Move the robot using encoders.
@@ -341,10 +350,12 @@ public class Mecanum19Drive {
         }
     }
 
-    private void stopWheelMotors() {
-        robot.LRMotor.setPower(0);
-        robot.RRMotor.setPower(0);
-        robot.LFMotor.setPower(0);
-        robot.RFMotor.setPower(0);
+    void waitFor(double seconds, String message) {
+        runtime.reset();
+        while (opMode.opModeIsActive() && (runtime.seconds() < seconds)) {
+            opMode.telemetry.addData("Path", message + ": %2.5f S Elapsed", runtime.seconds());
+//            telemetry.addData("Red", String.valueOf(robot.armColorSensor.red()));
+            opMode.telemetry.update();
+        }
     }
 }

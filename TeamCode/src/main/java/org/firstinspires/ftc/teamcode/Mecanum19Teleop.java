@@ -30,10 +30,10 @@ import org.firstinspires.ftc.teamcode.Mecanum19;
 public class Mecanum19Teleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Mecanum19 robot           = new Mecanum19();              //
-    // double          armPosition     = robot.ARM_HOME;                   // Servo safe position
-    private double          clawPosition    = Mecanum19.CLAW_HOME;                  // Servo safe position
-    private final double    CLAW_SPEED      = 0.05 ;                            // sets rate to move servo
+    Mecanum19 robot           = new Mecanum19();                         //
+    // double          armPosition     = robot.ARM_HOME;                 // Servo safe position
+    private double          clawPosition    = Mecanum19.CLAW_HOME;       // Servo safe position
+    private final double    CLAW_SPEED      = 0.05 ;                     // sets rate to move servo
     final double    ARM_SPEED       = 0.05  ;                            // sets rate to move servo
     double          lift            = 0.2;
     private ElapsedTime runtime = new ElapsedTime();
