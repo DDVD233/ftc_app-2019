@@ -79,60 +79,12 @@ public class Mecanum19Teleop extends LinearOpMode {
             robot.LRMotor.setPower(LRspeed);
             robot.RRMotor.setPower(RRspeed);
 
-            //    liftup = gamepad1.left_trigger;
-            //    liftdown = gamepad1.right_trigger;
-
-            //   robot.liftM.setPower(liftup);
-            //  robot.liftM.setPower(-liftdown);
-
-            // Use gamepad Y & A raise and lower the arm
-//            if (gamepad1.a)
-//                armPosition += ARM_SPEED;
-//            else if (gamepad1.y)
-//                armPosition -= ARM_SPEED;
-
-
             robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
 
 
             setLiftMotorPower();
             setSweeperPower();
-
-            // Move both servos to new position.
-            //          armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
-            //          robot.arm.setPosition(armPosition);
-            // clawPosition = Range.clip(clawPosition, Mecanum19.CLAW_MIN_RANGE, Mecanum19.CLAW_MAX_RANGE);
-//            robot.Rclaw.setPosition(clawPosition);
-//            robot.Lclaw.setPosition(clawPosition);
-
-//            if (gamepad1.left_bumper){
-//                robot.liftM.setPower(lift);
-            // while (opModeIsActive() && (runtime.seconds() < 0.3)) {}
-            // robot.liftM.setPower(0);
-            //          }
-
-            //           if (gamepad1.left_trigger){
-            //               robot.liftM.setPower(0);
-            //        }
-
-//            if (gamepad1.right_bumper){
-//                robot.liftM.setPower(-lift);
-            // while (opModeIsActive() && (runtime.seconds() < 0.3)) {}
-            // robot.liftM.setPower(0);
-            //      }
-
-//            if (gamepad1.right_trigger){
-//                robot.liftM.setPower(0);
-            //    }
-
-
-            // Send telemetry message to signify robot running;
-            //  telemetry.addData("arm",   "%.2f", armPosition);
-//            telemetry.addData("Rclaw",  "%.2f", clawPosition);
-//            telemetry.addData("Lclaw",  "%.2f", clawPosition);
-            //telemetry.addData("left",  "%.2f", left);
-            //telemetry.addData("right", "%.2f", right);
             telemetry.update();
 
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
@@ -143,6 +95,8 @@ public class Mecanum19Teleop extends LinearOpMode {
             sleep(40);
         }
     }
+
+
 
 
     /**
