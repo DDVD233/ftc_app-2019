@@ -48,10 +48,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left  drive motor:        "left_drive"
- * Motor channel:  Right drive motor:        "right_drive"
- * Servo channel:  Servo to raise/lower arm: "arm"
- * Servo channel:  Servo to open/close claw: "claw"
+ * Motor channel:  Left rear motor:            "LRMotor"
+ * Motor channel:  Right rear motor:           "RRMotor"
+ * Motor channel:  Left front motor:           "LFMotor"
+ * Motor channel:  Right front motor:          "RFMotor"
+ * Motor channel:  Lift motor:                 "liftM"
+ * Motor channel:  Sweeper motor:              "sweeper"
+ * Motor channel:  Major arm at the center:    "mainArm"
+ * Servo channel:  Servo to raise/lower arm:   "arm"
+ * Servo channel:  Servo to open/close claw:   "claw"
  *
  * Note: the configuration of the servos is such that:
  *   As the arm servo approaches 0, the arm position moves up (away from the floor).
@@ -101,6 +106,7 @@ public class Mecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
+        sweeper = hwMap.get(DcMotor.class, "sweeper");
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -109,7 +115,7 @@ public class Mecanum19 {
         RRMotor.setPower(0);
         sweeper.setPower(0);
         liftM.setPower(0);
-
+        sweeper.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -119,6 +125,7 @@ public class Mecanum19 {
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

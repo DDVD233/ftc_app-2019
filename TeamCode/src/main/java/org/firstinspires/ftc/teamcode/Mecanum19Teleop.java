@@ -91,20 +91,18 @@ public class Mecanum19Teleop extends LinearOpMode {
 //            else if (gamepad1.y)
 //                armPosition -= ARM_SPEED;
 
-            // Use gamepad X & B to open and close the claw
+
             robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
-            if (gamepad1.left_bumper) {
-                double sweeperPower = (robot.sweeper.getPower()==0.0)?1.0:0.0;
-                robot.sweeper.setPower(sweeperPower);
-            }
 
 
+            setLiftMotorPower();
+            setSweeperPower();
 
             // Move both servos to new position.
             //          armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
             //          robot.arm.setPosition(armPosition);
-            clawPosition = Range.clip(clawPosition, Mecanum19.CLAW_MIN_RANGE, Mecanum19.CLAW_MAX_RANGE);
+            // clawPosition = Range.clip(clawPosition, Mecanum19.CLAW_MIN_RANGE, Mecanum19.CLAW_MAX_RANGE);
 //            robot.Rclaw.setPosition(clawPosition);
 //            robot.Lclaw.setPosition(clawPosition);
 
@@ -131,13 +129,11 @@ public class Mecanum19Teleop extends LinearOpMode {
 
             // Send telemetry message to signify robot running;
             //  telemetry.addData("arm",   "%.2f", armPosition);
-            telemetry.addData("Rclaw",  "%.2f", clawPosition);
-            telemetry.addData("Lclaw",  "%.2f", clawPosition);
+//            telemetry.addData("Rclaw",  "%.2f", clawPosition);
+//            telemetry.addData("Lclaw",  "%.2f", clawPosition);
             //telemetry.addData("left",  "%.2f", left);
             //telemetry.addData("right", "%.2f", right);
             telemetry.update();
-            // test
-            int test = 0;
 
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
             telemetry.addData("LRMotor",  "%.2f", LRspeed);
@@ -145,6 +141,33 @@ public class Mecanum19Teleop extends LinearOpMode {
             telemetry.addData("RFMotor",  "%.2f", RRspeed) ;
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
+        }
+    }
+
+
+    /**
+     * Use x and a button to control the lift motor.
+     * If the lift power is not 0, pressing any of the buttons will stop the motor.
+     * Otherwise the x button will move the lift up while b button will lower the lift.
+     */
+    private void setLiftMotorPower() {
+        if (gamepad1.x) {
+            double liftPower = (robot.liftM.getPower()==0.0)?1.0:0.0;
+            robot.liftM.setPower(liftPower);
+        } else if (gamepad1.a) {
+            double liftPower = (robot.liftM.getPower()==0.0)?-1.0:0.0;
+            robot.liftM.setPower(liftPower);
+        }
+    }
+
+    /**
+     * Use left bumper to control the sweeper.
+     * The bumper act as a switch, turning the sweeper on and off.
+     */
+    private void setSweeperPower() {
+        if (gamepad1.left_bumper) {
+            double sweeperPower = (robot.sweeper.getPower()==0.0)?1.0:0.0;
+            robot.sweeper.setPower(sweeperPower);
         }
     }
 }
