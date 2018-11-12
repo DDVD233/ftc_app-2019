@@ -46,18 +46,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * In this case that robot is a K9 robot.
  *
  * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left rear motor:            "LRMotor"
- * Motor channel:  Right rear motor:           "RRMotor"
- * Motor channel:  Left front motor:           "LFMotor"
- * Motor channel:  Right front motor:          "RFMotor"
- * Motor channel:  Lift motor:                 "liftM"
- * Motor channel:  Sweeper motor:              "sweeper"
- * Motor channel:  Major arm at the center:    "mainArm"
- * Servo channel:  Servo to raise/lower arm:   "arm"
- * Servo channel:  Servo to open/close claw:   "claw"
- *
+ * Motor  channel:  Left rear motor:                          "LRMotor"
+ * Motor  channel:  Right rear motor:                         "RRMotor"
+ * Motor  channel:  Left front motor:                         "LFMotor"
+ * Motor  channel:  Right front motor:                        "RFMotor"
+ * Motor  channel:  Lift motor:                               "liftM"
+ * Motor  channel:  Sweeper motor:                            "sweeper"
+ * Motor  channel:  Major arm at the center:                  "mainArm"
+ * Motor  channel: 
+ * Gyro   channel:  Robot gyro of type "AdaFruit IMU":        "imu"
+ * Sensor channel:  Left color sensor detecting the ball:     "leftColor"
+ * Sensor channel:  Right color sensor detecting the ball:    "rightColor"
  * Note: the configuration of the servos is such that:
  *   As the arm servo approaches 0, the arm position moves up (away from the floor).
  *   As the claw servo approaches 0, the claw opens up (drops the game element).
