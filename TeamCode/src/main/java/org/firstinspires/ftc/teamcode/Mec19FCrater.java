@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.legacy.Direction;
+
 
 /**
  * This is the autonomous mode for the robot Mecanum19.
@@ -61,6 +63,13 @@ public class Mec19FCrater extends LinearOpMode {
         mecanumDrive.setWheelPower(0,0,0,0);
 
         waitForStart();
+
+        mecanumDrive.robot.liftM.setPower(1);
+
+        mecanumDrive.waitFor(8, "Releasing robot");
+
+        mecanumDrive.encoderDriveMove(1, Direction.FORWARD, 5, 3);
+
 
     }
 }

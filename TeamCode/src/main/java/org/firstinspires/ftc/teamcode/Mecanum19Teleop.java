@@ -85,6 +85,7 @@ public class Mecanum19Teleop extends LinearOpMode {
 
             setLiftMotorPower();
             setSweeperPower();
+            setRiserPower();
             telemetry.update();
 
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
@@ -120,8 +121,16 @@ public class Mecanum19Teleop extends LinearOpMode {
      */
     private void setSweeperPower() {
         if (gamepad1.left_bumper) {
-            double sweeperPower = (robot.sweeper.getPower()==0.0)?1.0:0.0;
-            robot.sweeper.setPower(sweeperPower);
+            double sweeperPower = (robot.sweeper.getPosition()==0.5)?500.0:0.5;
+            robot.sweeper.setPosition(sweeperPower);
+        }
+    }
+
+    private void setRiserPower() {
+        if (gamepad1.x) {
+            robot.swRiser.setPosition(0);
+        } else if (gamepad1.b) {
+            robot.swRiser.setPosition(0.5);
         }
     }
 }

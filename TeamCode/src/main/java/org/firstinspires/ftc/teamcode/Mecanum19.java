@@ -35,8 +35,11 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -52,10 +55,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor  channel:  Left front motor:                         "LFMotor"
  * Motor  channel:  Right front motor:                        "RFMotor"
  * Motor  channel:  Lift motor:                               "liftM"
- * Motor  channel:  Sweeper motor:                            "sweeper"
  * Motor  channel:  Major arm at the center:                  "mainArm"
- * Motor  channel: 
+ * Motor  channel:
  * Gyro   channel:  Robot gyro of type "AdaFruit IMU":        "imu"
+ * Servo  channel:  Sweeper servo:                            "sweeper"
+ * Servo  channel:  Sweeper Riser Servo:                      "swRiser"
  * Sensor channel:  Left color sensor detecting the ball:     "leftColor"
  * Sensor channel:  Right color sensor detecting the ball:    "rightColor"
  * Note: the configuration of the servos is such that:
@@ -69,9 +73,13 @@ public class Mecanum19 {
     public DcMotor LRMotor = null;
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
-    public DcMotor sweeper = null;
     public DcMotor mainArm = null;
+    public Servo   swRiser = null;
+    public Servo   sweeper = null;
     public BNO055IMU gyro = null;
+
+    public ColorSensor leftColorSensor = null;
+    public DistanceSensor leftDistanceSensor = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
 //    public Servo    Rclaw        = null;
@@ -106,16 +114,19 @@ public class Mecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-        sweeper = hwMap.get(DcMotor.class, "sweeper");
+        sweeper = hwMap.get(Servo.class, "sweeper");
+        swRiser = hwMap.get(Servo.class, "swRiser");
+
+
 
         // Set all motors to zero power
         LFMotor.setPower(0);
         RFMotor.setPower(0);
         LRMotor.setPower(0);
         RRMotor.setPower(0);
-        sweeper.setPower(0);
         liftM.setPower(0);
-        sweeper.setPower(0);
+
+        sweeper.setPosition(0.5);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -124,7 +135,6 @@ public class Mecanum19 {
         LRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
