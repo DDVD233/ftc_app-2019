@@ -130,6 +130,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
     /**
      * Use left bumper to control the sweeper.
      * The bumper act as a switch, turning the sweeper on and off.
+     **/
 
     private void setSweeperPower() {
         if (gamepad1.left_bumper) {
@@ -137,6 +138,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
             robot.sweeper.setPower(sweeperPower);
         }
     }
-*/
+
+
 }
 
