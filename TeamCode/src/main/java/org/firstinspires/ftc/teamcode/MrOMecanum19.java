@@ -37,6 +37,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -74,6 +75,7 @@ public class MrOMecanum19 {
     //public DcMotor sweeper = null;
     public CRServo sweeper = null;
     public Servo   sweeperARM = null;
+    public Servo   lid = null;
     public DcMotor mainArm = null;
     public BNO055IMU gyro = null;
     // public Servo    arm         = null;
@@ -81,11 +83,12 @@ public class MrOMecanum19 {
 //    public Servo    Rclaw        = null;
 
     public final static double ARM_HOME = 1.0; // 0 -> up; 0.7 -> Right
-   // public final static double CLAW_HOME = 0.3;
+    public final static double LID_HOME = 0.6;
+
     public final static double ARM_MIN_RANGE  = 1.00;
     public final static double ARM_MAX_RANGE  = 0.50;
-    //public final static double CLAW_MIN_RANGE  = 0.30;
-    ///public final static double CLAW_MAX_RANGE  = 0.7;
+    public final static double LID_MIN_RANGE  = 0.60;
+    public final static double LID_MAX_RANGE  = 0.8;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -110,7 +113,7 @@ public class MrOMecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-
+        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -120,6 +123,7 @@ public class MrOMecanum19 {
      //   sweeper.setPower(0);
         liftM.setPower(0);
        // sweeper.setPower(0);
+        mainArm.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -129,7 +133,7 @@ public class MrOMecanum19 {
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -137,11 +141,10 @@ public class MrOMecanum19 {
         // Define and initialize ALL installed servos.
         sweeperARM  = hwMap.get(Servo.class, "sweeperARM");
         sweeper = hwMap.get(CRServo.class, "sweeper");
-//        Rclaw = hwMap.get(Servo.class, "Rclaw");
-//        //arm.setPosition(ARM_HOME);
-//        Lclaw.setDirection(Servo.Direction.REVERSE);
-//        Lclaw.setPosition(CLAW_HOME);
-//        Rclaw.setPosition(CLAW_HOME);
+        lid = hwMap.get(Servo.class, "lid");
+        sweeperARM.setPosition(ARM_HOME);
+        lid.setPosition(LID_HOME);
+
     }
 }
 
