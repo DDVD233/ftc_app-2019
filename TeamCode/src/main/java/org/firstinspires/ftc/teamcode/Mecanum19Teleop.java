@@ -38,6 +38,8 @@ public class Mecanum19Teleop extends LinearOpMode {
     final double    sweeperSPEED       = 0.90  ;                            // sets rate to move servo
     double          Offset            = 0;
     //double          addsweeperSPEED     = 0;
+    double          Lidset          = 0;
+    private final double LIDSPEED = 0.1;
 
     static final double Motor_Tick = 1440;
 
@@ -106,45 +108,15 @@ public class Mecanum19Teleop extends LinearOpMode {
             liftupdn = Range.clip(liftupdn,-1,1);
             robot.liftM.setPower(liftupdn);
 
-// Code to move mainArm using encoders and button push
+            if (gamepad2.x)
+                Lidset += LIDSPEED;
+            else if (gamepad2.b)
+                Lidset -= LIDSPEED;
 
-            if (gamepad1.y) {
-                // moving mainArm up
-                robot.sweeperARM.setPosition(1);
+            Lidset = Range.clip(Lidset, 0.5, 1.0);
+            robot.lid.setPosition(Lidset);
 
-                while (robot.sweeperARM.getPosition()<0.9) {
-                    // Break
-                }
 
-                robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
-                //int newTarget = robot.mainArm.getTargetPosition() - (int)halfTurn;
-                robot.mainArm.setTargetPosition(600);
-                robot.mainArm.setPower(0.3);
-                robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while (robot.mainArm.isBusy()) {
-                    //wait until done moving
-                }
-                robot.mainArm.setPower(0);
-                //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            }
-
-            if (gamepad1.a) { // move mainArm back down
-                //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
-                robot.mainArm.setTargetPosition(0);
-                robot.mainArm.setPower(0.4);
-                robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while (robot.mainArm.isBusy()) {
-                    //wait until done moving
-                    telemetry.addData("Current position", robot.mainArm.getCurrentPosition());
-                }
-                robot.mainArm.setPower(0);
-                robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-//                robot.sweeperARM.setPosition(0.5);
-            }
 
             /*  if (gamepad1.x) {
                 double liftPower = (robot.liftM.getPower()==0.0)?1.0:0.0;
@@ -171,7 +143,52 @@ public class Mecanum19Teleop extends LinearOpMode {
             sleep(40);
         }
     }
+
+    private void moveMainArm() {
+        // Code to move mainArm using encoders and button push
+
+        if (gamepad1.y) {
+            // moving mainArm up
+            robot.sweeperARM.setPosition(1);
+
+            while (robot.sweeperARM.getPosition()<0.9) {
+                // Break
+            }
+
+            robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
+            //int newTarget = robot.mainArm.getTargetPosition() - (int)halfTurn;
+            robot.mainArm.setTargetPosition(600);
+            robot.mainArm.setPower(0.3);
+            robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            while (robot.mainArm.isBusy()) {
+                //wait until done moving
+                telemetry.addData("Current position", robot.mainArm.getCurrentPosition());
+            }
+            robot.mainArm.setPower(0);
+            //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        }
+
+        if (gamepad1.a) { // move mainArm back down
+            //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
+            robot.sweeperARM.setPosition(1);
+            robot.mainArm.setTargetPosition(0);
+            robot.mainArm.setPower(0.4);
+            robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            while (robot.mainArm.isBusy()) {
+                //wait until done moving
+                telemetry.addData("Current position", robot.mainArm.getCurrentPosition());
+            }
+            robot.mainArm.setPower(0);
+            robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+//                robot.sweeperARM.setPosition(0.5);
+        }
+    }
 }
+
 
 
 

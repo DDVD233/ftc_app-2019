@@ -77,6 +77,7 @@ public class Mecanum19 {
     //public DcMotor sweeper = null;
     public CRServo sweeper = null;
     public Servo   sweeperARM = null;
+    public Servo   lid = null;
     public DcMotor mainArm = null;
     public BNO055IMU gyro = null;
     // public Servo    arm         = null;
@@ -84,11 +85,12 @@ public class Mecanum19 {
 //    public Servo    Rclaw        = null;
 
     public final static double ARM_HOME = 1.0; // 0 -> up; 0.7 -> Right
-    // public final static double CLAW_HOME = 0.3;
+    public final static double LID_HOME = 0.6;
+
     public final static double ARM_MIN_RANGE  = 1.00;
     public final static double ARM_MAX_RANGE  = 0.50;
-    //public final static double CLAW_MIN_RANGE  = 0.30;
-    ///public final static double CLAW_MAX_RANGE  = 0.7;
+    public final static double LID_MIN_RANGE  = 0.60;
+    public final static double LID_MAX_RANGE  = 0.8;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -141,11 +143,10 @@ public class Mecanum19 {
         // Define and initialize ALL installed servos.
         sweeperARM  = hwMap.get(Servo.class, "sweeperARM");
         sweeper = hwMap.get(CRServo.class, "sweeper");
-//        Rclaw = hwMap.get(Servo.class, "Rclaw");
+        lid = hwMap.get(Servo.class, "lid");
         sweeperARM.setPosition(ARM_HOME);
-//        Lclaw.setDirection(Servo.Direction.REVERSE);
-//        Lclaw.setPosition(CLAW_HOME);
-//        Rclaw.setPosition(CLAW_HOME);
+        lid.setPosition(LID_HOME);
+
     }
 }
 
