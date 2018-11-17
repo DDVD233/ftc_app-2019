@@ -68,8 +68,9 @@ public class Mec19FCrater extends LinearOpMode {
 
         mecanumDrive.waitFor(8, "Releasing robot");
 
-        mecanumDrive.encoderDriveMove(1, Direction.FORWARD, 5, 3);
+        mecanumDrive.encoderDriveMove(1, Direction.RIGHT, 2, 3);
 
+        mecanumDrive.encoderDriveMove(1, Direction.FORWARD, 5, 5);      
 
     }
 }

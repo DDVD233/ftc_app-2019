@@ -37,6 +37,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -110,7 +111,7 @@ public class MrOMecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-
+        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -120,6 +121,7 @@ public class MrOMecanum19 {
      //   sweeper.setPower(0);
         liftM.setPower(0);
        // sweeper.setPower(0);
+        mainArm.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -129,7 +131,7 @@ public class MrOMecanum19 {
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -138,7 +140,7 @@ public class MrOMecanum19 {
         sweeperARM  = hwMap.get(Servo.class, "sweeperARM");
         sweeper = hwMap.get(CRServo.class, "sweeper");
 //        Rclaw = hwMap.get(Servo.class, "Rclaw");
-//        //arm.setPosition(ARM_HOME);
+        sweeperARM.setPosition(ARM_HOME);
 //        Lclaw.setDirection(Servo.Direction.REVERSE);
 //        Lclaw.setPosition(CLAW_HOME);
 //        Rclaw.setPosition(CLAW_HOME);
