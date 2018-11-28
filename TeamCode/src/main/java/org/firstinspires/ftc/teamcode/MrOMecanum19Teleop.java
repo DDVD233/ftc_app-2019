@@ -136,7 +136,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
             if (gamepad1.a) { // move mainArm back down
                 //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
                robot.mainArm.setTargetPosition(0);
-               robot.mainArm.setPower(0.3);
+               robot.mainArm.setPower(-0.3);
                 robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 while (robot.mainArm.isBusy()) {
