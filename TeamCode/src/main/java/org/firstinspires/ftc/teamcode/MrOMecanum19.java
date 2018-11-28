@@ -113,7 +113,7 @@ public class MrOMecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-        mainArm.setDirection(DcMotor.Direction.REVERSE);
+        //mainArm.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         LFMotor.setPower(0);
