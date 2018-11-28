@@ -121,14 +121,14 @@ public class MrOMecanum19Teleop extends LinearOpMode {
                 // moving mainArm up
                  robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
                 //int newTarget = robot.mainArm.getTargetPosition() - (int)halfTurn;
-                robot.mainArm.setTargetPosition(600);
-                robot.mainArm.setPower(0.3);
+                robot.mainArm.setTargetPosition(235);
+                robot.mainArm.setPower(0.7);
                 robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 while (robot.mainArm.isBusy()) {
                     //wait until done moving
                     }
-                robot.mainArm.setPower(0);
+                robot.mainArm.setPower(-0.1);
                 //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             }
