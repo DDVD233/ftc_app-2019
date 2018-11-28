@@ -31,8 +31,8 @@ import org.firstinspires.ftc.teamcode.Mecanum19;
 public class Mecanum19Teleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    MrOMecanum19 robot           = new MrOMecanum19();                         //
-    double          armPosition     = MrOMecanum19.ARM_HOME;                 // Servo safe position
+    Mecanum19 robot           = new Mecanum19();                         //
+    double          armPosition     = Mecanum19.ARM_HOME;                 // Servo safe position
     //private double          clawPosition    = MrOMecanum19.CLAW_HOME;       // Servo safe position
     private final double    ARMSPEED      = 0.10 ;                     // sets rate to move servo
     final double    sweeperSPEED       = 0.90  ;                            // sets rate to move servo
@@ -96,12 +96,7 @@ public class Mecanum19Teleop extends LinearOpMode {
             Offset = Range.clip(Offset, 0.5, 1.0);
             robot.sweeperARM.setPosition(Offset);
 
-            // Sweeper code
-            if (gamepad2.left_bumper)
-                robot.sweeper.setPower(sweeperSPEED);
-            else if (gamepad2.right_bumper)
-                robot.sweeper.setPower(-sweeperSPEED);
-            else robot.sweeper.setPower(0.0);
+
 
             // lift code
             liftupdn = -gamepad2.left_stick_y;
@@ -118,17 +113,10 @@ public class Mecanum19Teleop extends LinearOpMode {
 
 
 
-            /*  if (gamepad1.x) {
-                double liftPower = (robot.liftM.getPower()==0.0)?1.0:0.0;
-                robot.liftM.setPower(liftPower);
-            } else if (gamepad1.b) {
-                double liftPower = (robot.liftM.getPower()==0.0)?-1.0:0.0;
-                robot.liftM.setPower(liftPower);
-            }
-*/
-
             //robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
+            moveMainArm();
+            setSweeperPower();
 
 
             //setLiftMotorPower();
@@ -138,10 +126,27 @@ public class Mecanum19Teleop extends LinearOpMode {
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
             telemetry.addData("LRMotor",  "%.2f", LRspeed);
             telemetry.addData("RFMotor",  "%.2f", RFspeed);
-            telemetry.addData("RFMotor",  "%.2f", RRspeed) ;
+            telemetry.addData("RFMotor",  "%.2f", RRspeed);
+            telemetry.addData("LeftColorRed", "%03d", robot.leftColor.red());
+            telemetry.addData("LeftColorGreen", "%03d", robot.leftColor.green());
+            telemetry.addData("LeftColorBlue", "%03d", robot.leftColor.blue());
+            telemetry.addData("RightColorRed", "%03d", robot.rightColor.red());
+            telemetry.addData("RightColorGreen", "%03d", robot.rightColor.green());
+            telemetry.addData("RightColorBlue", "%03d", robot.rightColor.blue());
+
+
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
+    }
+
+    private void setSweeperPower() {
+        // Sweeper code
+        if (gamepad2.left_bumper)
+            robot.sweeper.setPower(sweeperSPEED);
+        else if (gamepad2.right_bumper)
+            robot.sweeper.setPower(-sweeperSPEED);
+        else robot.sweeper.setPower(0.0);
     }
 
     private void moveMainArm() {
@@ -174,7 +179,7 @@ public class Mecanum19Teleop extends LinearOpMode {
             //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
             robot.sweeperARM.setPosition(1);
             robot.mainArm.setTargetPosition(0);
-            robot.mainArm.setPower(0.4);
+            robot.mainArm.setPower(-0.4);
             robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             while (robot.mainArm.isBusy()) {

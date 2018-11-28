@@ -80,6 +80,10 @@ public class Mecanum19 {
     public Servo   lid = null;
     public DcMotor mainArm = null;
     public BNO055IMU gyro = null;
+    public ColorSensor leftColor = null;
+    public ColorSensor rightColor = null;
+    public DistanceSensor leftDistance = null;
+    public DistanceSensor rightDistance = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
 //    public Servo    Rclaw        = null;
@@ -116,6 +120,12 @@ public class Mecanum19 {
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
         mainArm.setDirection(DcMotor.Direction.REVERSE);
+
+
+        leftColor = hwMap.get(ColorSensor.class, "leftColor");
+        rightColor = hwMap.get(ColorSensor.class, "rightColor");
+        leftDistance = hwMap.get(DistanceSensor.class, "leftColor");
+        rightDistance = hwMap.get(DistanceSensor.class, "rightColor");
 
         // Set all motors to zero power
         LFMotor.setPower(0);
