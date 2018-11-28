@@ -119,7 +119,7 @@ public class Mecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-        mainArm.setDirection(DcMotor.Direction.REVERSE);
+//        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
 
         leftColor = hwMap.get(ColorSensor.class, "leftColor");
