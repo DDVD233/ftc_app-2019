@@ -88,8 +88,8 @@ public class IVTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            left = -gamepad1.left_stick_y;
-            right = -gamepad1.right_stick_y;
+            left = gamepad1.left_stick_y;
+            right = gamepad1.right_stick_y;
 
            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
 
@@ -118,12 +118,12 @@ public class IVTeleop extends LinearOpMode {
             RPosition  = Range.clip(RPosition, robot.R_MIN_RANGE, robot.R_MAX_RANGE);
             robot.RoArm.setPosition(RPosition);
 
-            if (gamepad1.dpad_up)
-                BPosition += B_SPEED;
-            else if (gamepad1.dpad_down)
-                BPosition -= B_SPEED;
+            if (gamepad1.dpad_up){
+                BPosition += B_SPEED;}
+            if (gamepad1.dpad_down){
+                BPosition -= B_SPEED;}
 
-            BPosition  = Range.clip(LPosition, robot.B_MIN_RANGE, robot.B_MAX_RANGE);
+            BPosition  = Range.clip(BPosition, robot.B_MIN_RANGE, robot.B_MAX_RANGE);
             robot.Bottom.setPosition(BPosition);
 
             if (gamepad1.dpad_right)
@@ -131,13 +131,14 @@ public class IVTeleop extends LinearOpMode {
             else if (gamepad1.dpad_left)
                 TPosition -= T_SPEED;
 
-            TPosition  = Range.clip(LPosition, robot.T_MIN_RANGE, robot.T_MAX_RANGE);
+            TPosition  = Range.clip(TPosition, robot.T_MIN_RANGE, robot.T_MAX_RANGE);
             robot.Top.setPosition(TPosition);
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("arm",   "%.2f", LPosition);
-            telemetry.addData("RClaw",  "%.2f", RPosition);
-            telemetry.addData("LClaw",  "%.2f", BPosition);
+            telemetry.addData("Lever",   "%.2f", LPosition);
+            telemetry.addData("RoArm",  "%.2f", RPosition);
+            telemetry.addData("Bottom",  "%.2f", BPosition);
+            telemetry.addData("Top",  "%.2f", TPosition);
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
             telemetry.update();
