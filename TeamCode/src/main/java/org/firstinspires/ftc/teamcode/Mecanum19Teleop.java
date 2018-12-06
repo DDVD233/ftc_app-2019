@@ -154,6 +154,11 @@ public class Mecanum19Teleop extends LinearOpMode {
 
         if (gamepad1.y) {
             // moving mainArm up
+            robot.sweeperARM.setPosition(1.0);
+            while (robot.sweeperARM.getPosition() < 0.9) {
+                //wait until done moving
+            }
+
             robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
             //int newTarget = robot.mainArm.getTargetPosition() - (int)halfTurn;
             robot.mainArm.setTargetPosition(235);
@@ -170,6 +175,7 @@ public class Mecanum19Teleop extends LinearOpMode {
         }
 
         if (gamepad1.a) { // move mainArm back down
+            robot.sweeperARM.setPosition(1.0);
             //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
             robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.mainArm.setTargetPosition(-235);
@@ -182,6 +188,7 @@ public class Mecanum19Teleop extends LinearOpMode {
             robot.mainArm.setPower(0);
             robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.mainArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.sweeperARM.setPosition(0.5);
         }
     }
 }
