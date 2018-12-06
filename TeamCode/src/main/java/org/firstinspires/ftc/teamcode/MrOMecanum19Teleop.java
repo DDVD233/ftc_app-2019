@@ -30,7 +30,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
 
     /* Declare OpMode members. */
     MrOMecanum19 robot           = new MrOMecanum19();                         //
-    double          armPosition     = MrOMecanum19.ARM_HOME;                 // Servo safe position
+   // double          armPosition     = MrOMecanum19.ARM_HOME;                 // Servo safe position
     //private double          clawPosition    = MrOMecanum19.CLAW_HOME;       // Servo safe position
     private final double    ARMSPEED      = 0.10 ;                     // sets rate to move servo
     final double    sweeperSPEED       = 0.90  ;                            // sets rate to move servo
@@ -50,8 +50,9 @@ public class MrOMecanum19Teleop extends LinearOpMode {
         double LRspeed=0;
         double RRspeed=0;
         double liftupdn=0;
+        double mainArm=0;
         //double liftdown;
-        double halfTurn = Motor_Tick/3;
+        double armTurn = 250;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -110,6 +111,8 @@ public class MrOMecanum19Teleop extends LinearOpMode {
 
             Lidset = Range.clip(Lidset, 0.5, 1.0);
             robot.lid.setPosition(Lidset);
+
+
              // lift code
             liftupdn = -gamepad2.left_stick_y;
             liftupdn = Range.clip(liftupdn,-1,1);
@@ -119,50 +122,27 @@ public class MrOMecanum19Teleop extends LinearOpMode {
 
             if (gamepad1.y) {
                 // moving mainArm up
-                 robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
-                //int newTarget = robot.mainArm.getTargetPosition() - (int)halfTurn;
-                robot.mainArm.setTargetPosition(235);
-                robot.mainArm.setPower(0.7);
-                robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                while (robot.mainArm.isBusy()) {
-                    //wait until done moving
-                    }
-                robot.mainArm.setPower(-0.1);
-                //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+               // robot.sweeperARM.setPosition(1);  // lift arm
+                robot.lid.setPosition(1); // close lid
 
-            }
+                // robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
+                // robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                //robot.mainArm.getTargetPosition();
+                robot.mainArm.setPower(0.3);
+                int newTarget = robot.mainArm.getCurrentPosition() + (int)armTurn;
+                robot.mainArm.setTargetPosition(newTarget);
+
+               }
 
             if (gamepad1.a) { // move mainArm back down
-                //int newTarget = robot.mainArm.getTargetPosition() + (int)halfTurn;
-               robot.mainArm.setTargetPosition(0);
-               robot.mainArm.setPower(-0.3);
-                robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while (robot.mainArm.isBusy()) {
-                    //wait until done moving
-                }
-                robot.mainArm.setPower(0);
-                robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+                int newTarget = robot.mainArm.getCurrentPosition() - (int)armTurn;
+                robot.mainArm.setTargetPosition(newTarget);
+                robot.mainArm.setPower(0.0);
             }
         }
 
-          /*  if (gamepad1.x) {
-                double liftPower = (robot.liftM.getPower()==0.0)?1.0:0.0;
-                robot.liftM.setPower(liftPower);
-            } else if (gamepad1.b) {
-                double liftPower = (robot.liftM.getPower()==0.0)?-1.0:0.0;
-                robot.liftM.setPower(liftPower);
-            }
-*/
 
-            //robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
-
-
-
-            //setLiftMotorPower();
-        //    setSweeperPower();
             telemetry.update();
 
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
