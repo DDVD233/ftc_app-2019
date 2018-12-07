@@ -116,6 +116,7 @@ public class MrOMecanum19 {
         mainArm = hwMap.get(DcMotor.class, "mainArm");
         //mainArm.setDirection(DcMotor.Direction.REVERSE);
 
+
         // Set all motors to zero power
         LFMotor.setPower(0);
         RFMotor.setPower(0);
@@ -135,7 +136,7 @@ public class MrOMecanum19 {
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mainArm.getTargetPosition(0);
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

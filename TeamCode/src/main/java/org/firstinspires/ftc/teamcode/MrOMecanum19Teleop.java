@@ -52,7 +52,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
         double liftupdn=0;
         double mainArm=0;
         //double liftdown;
-        double armTurn = 250;
+        double armTurn = 115;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -126,19 +126,22 @@ public class MrOMecanum19Teleop extends LinearOpMode {
                // robot.sweeperARM.setPosition(1);  // lift arm
                 robot.lid.setPosition(1); // close lid
 
-                // robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // set tick count to zero
-                // robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                //robot.mainArm.getTargetPosition();
-                robot.mainArm.setPower(0.3);
+                robot.mainArm.setPower(0.73);
                 int newTarget = robot.mainArm.getCurrentPosition() + (int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
 
+               // sleep(2000);
+
+               // newTarget = robot.mainArm.getCurrentPosition() - (int)armTurn;
+                //robot.mainArm.setTargetPosition(newTarget);
+                //robot.mainArm.setPower(0.0);
                }
 
             if (gamepad1.a) { // move mainArm back down
+                robot.mainArm.setPower(0.73);
                 int newTarget = robot.mainArm.getCurrentPosition() - (int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
-                robot.mainArm.setPower(0.0);
+
             }
         }
 
