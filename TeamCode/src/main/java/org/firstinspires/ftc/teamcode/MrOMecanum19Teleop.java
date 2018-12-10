@@ -52,7 +52,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
         double liftupdn=0;
         double mainArm=0;
         //double liftdown;
-        double armTurn = 115;
+        double armTurn = 240;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -122,26 +122,23 @@ public class MrOMecanum19Teleop extends LinearOpMode {
 
             if (gamepad1.y) {
                 // moving mainArm up
+                Offset = 1;
 
-               // robot.sweeperARM.setPosition(1);  // lift arm
-                robot.lid.setPosition(1); // close lid
-
-                robot.mainArm.setPower(0.73);
-                int newTarget = robot.mainArm.getCurrentPosition() + (int)armTurn;
+                //robot.mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.sweeperARM.setPosition(Offset);  // lift arm
+                Lidset = 1;
+                robot.lid.setPosition(Lidset); // close lid
+                robot.mainArm.setPower(0.3);
+                int newTarget = robot.mainArm.getCurrentPosition() + 50; //(int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
 
-               // sleep(2000);
-
-               // newTarget = robot.mainArm.getCurrentPosition() - (int)armTurn;
-                //robot.mainArm.setTargetPosition(newTarget);
-                //robot.mainArm.setPower(0.0);
                }
 
             if (gamepad1.a) { // move mainArm back down
-                robot.mainArm.setPower(0.73);
-                int newTarget = robot.mainArm.getCurrentPosition() - (int)armTurn;
+                robot.mainArm.setPower(0.3);
+                int newTarget = robot.mainArm.getCurrentPosition() - 50; //(int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
-
+                //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
 
@@ -152,6 +149,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
             telemetry.addData("LRMotor",  "%.2f", LRspeed);
             telemetry.addData("RFMotor",  "%.2f", RFspeed);
             telemetry.addData("RFMotor",  "%.2f", RRspeed) ;
+            telemetry.addData("mainArm",   "%.2f", robot.mainArm.getCurrentPosition());
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
