@@ -126,13 +126,13 @@ public class Mecanum19Teleop extends LinearOpMode {
             telemetry.addData("LFMotor",   "%.2f", robot.LFMotor.getPower());
             telemetry.addData("LRMotor",  "%.2f", LRspeed);
             telemetry.addData("RFMotor",  "%.2f", RFspeed);
-            telemetry.addData("RFMotor",  "%.2f", RRspeed);
-            telemetry.addData("LeftColorRed", "%03d", robot.leftColor.red());
-            telemetry.addData("LeftColorGreen", "%03d", robot.leftColor.green());
-            telemetry.addData("LeftColorBlue", "%03d", robot.leftColor.blue());
-            telemetry.addData("RightColorRed", "%03d", robot.rightColor.red());
-            telemetry.addData("RightColorGreen", "%03d", robot.rightColor.green());
-            telemetry.addData("RightColorBlue", "%03d", robot.rightColor.blue());
+//            telemetry.addData("RFMotor",  "%.2f", RRspeed);
+//            telemetry.addData("LeftColorRed", "%03d", robot.leftColor.red());
+//            telemetry.addData("LeftColorGreen", "%03d", robot.leftColor.green());
+//            telemetry.addData("LeftColorBlue", "%03d", robot.leftColor.blue());
+//            telemetry.addData("RightColorRed", "%03d", robot.rightColor.red());
+//            telemetry.addData("RightColorGreen", "%03d", robot.rightColor.green());
+//            telemetry.addData("RightColorBlue", "%03d", robot.rightColor.blue());
 
 
             // Pause for 40 mS each cycle = update 25 times a second.

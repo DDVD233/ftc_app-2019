@@ -65,16 +65,16 @@ public class IVcapstonehardward {
     public Servo    Bottom       = null;
     public Servo    Top     = null;
 
-    public final static double L_HOME = 0.5; // 0 -> up; 0.7 -> Right
+    public final static double L_HOME = 0.3; // 0 -> up; 0.7 -> Right
     public final static double R_HOME = 0.5;
     public final static double B_HOME = 0.5; // 0 -> up; 0.7 -> Right
     public final static double T_HOME = 0.5;
 
 
-    public final static double L_MIN_RANGE  = 0.00;
-    public final static double L_MAX_RANGE  = 0.70;
-    public final static double R_MIN_RANGE  = 0.30;
-    public final static double R_MAX_RANGE  = 0.7;
+    public final static double L_MIN_RANGE  = 0.30;
+    public final static double L_MAX_RANGE  = 0.90;
+    public final static double R_MIN_RANGE  = 0.10 ;
+    public final static double R_MAX_RANGE  = 0.9;
     public final static double B_MIN_RANGE  = 0.00;
     public final static double B_MAX_RANGE  = 0.70;
     public final static double T_MIN_RANGE  = 0.30;

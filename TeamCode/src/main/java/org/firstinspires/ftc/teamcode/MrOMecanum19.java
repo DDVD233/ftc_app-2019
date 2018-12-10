@@ -72,11 +72,12 @@ public class MrOMecanum19 {
     public DcMotor LRMotor = null;
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
+    public DcMotor mainArm = null;
     //public DcMotor sweeper = null;
     public CRServo sweeper = null;
     public Servo   sweeperARM = null;
     public Servo   lid = null;
-    public DcMotor mainArm = null;
+
     public BNO055IMU gyro = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
@@ -113,7 +114,8 @@ public class MrOMecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-        //mainArm.setDirection(DcMotor.Direction.REVERSE);
+        mainArm.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -133,7 +135,9 @@ public class MrOMecanum19 {
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        mainArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mainArm.getTargetPosition();
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
