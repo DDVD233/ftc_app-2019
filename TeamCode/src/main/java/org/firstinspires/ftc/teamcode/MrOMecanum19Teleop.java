@@ -29,9 +29,7 @@ import com.qualcomm.robotcore.util.Range;
 public class MrOMecanum19Teleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    MrOMecanum19 robot           = new MrOMecanum19();                         //
-   // double          armPosition     = MrOMecanum19.ARM_HOME;                 // Servo safe position
-    //private double          clawPosition    = MrOMecanum19.CLAW_HOME;       // Servo safe position
+    Mecanum19 robot           = new Mecanum19();                         //
     private final double    ARMSPEED      = 0.10 ;                     // sets rate to move servo
     final double    sweeperSPEED       = 0.90  ;                            // sets rate to move servo
     double          Offset            = 0;

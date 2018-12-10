@@ -33,7 +33,6 @@ public class Mecanum19Teleop extends LinearOpMode {
     /* Declare OpMode members. */
     Mecanum19 robot           = new Mecanum19();                         //
     double          armPosition     = Mecanum19.ARM_HOME;                 // Servo safe position
-    //private double          clawPosition    = MrOMecanum19.CLAW_HOME;       // Servo safe position
     private final double    ARMSPEED      = 0.10 ;                     // sets rate to move servo
     final double    sweeperSPEED       = 0.90  ;                            // sets rate to move servo
     double          Offset            = 0;

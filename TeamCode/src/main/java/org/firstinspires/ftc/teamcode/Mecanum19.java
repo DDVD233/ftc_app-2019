@@ -74,16 +74,13 @@ public class Mecanum19 {
     public DcMotor LRMotor = null;
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
+    public DcMotor mainArm = null;
     //public DcMotor sweeper = null;
     public CRServo sweeper = null;
     public Servo   sweeperARM = null;
     public Servo   lid = null;
-    public DcMotor mainArm = null;
+
     public BNO055IMU gyro = null;
-   // public ColorSensor leftColor = null;
-   // public ColorSensor rightColor = null;
-   // public DistanceSensor leftDistance = null;
-   // public DistanceSensor rightDistance = null;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
 //    public Servo    Rclaw        = null;
@@ -119,13 +116,8 @@ public class Mecanum19 {
         LRMotor.setDirection(DcMotor.Direction.REVERSE);
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
-//        mainArm.setDirection(DcMotor.Direction.REVERSE);
+        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
-
-     //   leftColor = hwMap.get(ColorSensor.class, "leftColor");
-     //   rightColor = hwMap.get(ColorSensor.class, "rightColor");
-      //  leftDistance = hwMap.get(DistanceSensor.class, "leftColor");
-      //  rightDistance = hwMap.get(DistanceSensor.class, "rightColor");
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -145,7 +137,9 @@ public class Mecanum19 {
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        mainArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mainArm.getTargetPosition();
 
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -156,7 +150,6 @@ public class Mecanum19 {
         lid = hwMap.get(Servo.class, "lid");
         sweeperARM.setPosition(ARM_HOME);
         lid.setPosition(LID_HOME);
-
     }
 }
 
