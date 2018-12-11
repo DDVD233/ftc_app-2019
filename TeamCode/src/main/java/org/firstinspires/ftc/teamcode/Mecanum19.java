@@ -38,6 +38,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -81,6 +82,7 @@ public class Mecanum19 {
     public Servo   lid = null;
 
     public BNO055IMU gyro = null;
+    public DigitalChannel digitalSwitch;
     // public Servo    arm         = null;
 //    public Servo    Lclaw        = null;
 //    public Servo    Rclaw        = null;
@@ -117,7 +119,7 @@ public class Mecanum19 {
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
         mainArm.setDirection(DcMotor.Direction.REVERSE);
-
+        digitalSwitch = hwMap.get(DigitalChannel.class, "dSwitch");
 
         // Set all motors to zero power
         LFMotor.setPower(0);
