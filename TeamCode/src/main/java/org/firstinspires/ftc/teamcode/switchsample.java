@@ -27,8 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,9 +45,9 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Sensor: Digital touch", group = "Sensor")
-@Disabled
-public class SensorDigitalTouch extends LinearOpMode {
+@Autonomous(name = "Sensor: Digital Switch")
+//@Disabled
+public class switchsample extends LinearOpMode {
     /**
      * The REV Robotics Touch Sensor
      * is treated as a digital channel.  It is HIGH if the button is unpressed.
@@ -57,16 +58,18 @@ public class SensorDigitalTouch extends LinearOpMode {
      * The lower (first) pin stays unconnected.*
      */
     public DcMotor liftM   = null;
-    DigitalChannel digitalTouch;  // Hardware Device Object
+    DigitalChannel digitalSwitch;  // Hardware Device Object
 
     @Override
     public void runOpMode() {
 
         // get a reference to our digitalTouch object.
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        digitalSwitch = hardwareMap.get(DigitalChannel.class, "dSwitch");
         liftM  = hardwareMap.get(DcMotor.class, "liftM");
         // set the digital channel to input.
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        digitalSwitch.setMode(DigitalChannel.Mode.INPUT);
+        liftM.setPower(0);
+        liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -77,9 +80,12 @@ public class SensorDigitalTouch extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (digitalTouch.getState() == true) {
+            if (digitalSwitch.getState() == true) {
+
+                liftM.setPower(1);
                 telemetry.addData("Digital Touch", "Is Not Pressed");
             } else {
+                liftM.setPower(0);
                 telemetry.addData("Digital Touch", "Is Pressed");
             }
 

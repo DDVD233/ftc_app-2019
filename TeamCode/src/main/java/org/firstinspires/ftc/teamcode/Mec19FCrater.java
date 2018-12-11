@@ -64,9 +64,17 @@ public class Mec19FCrater extends LinearOpMode {
 
         waitForStart();
 
-        mecanumDrive.robot.liftM.setPower(1);
+        if (mecanumDrive.robot.digitalSwitch.getState() == true) {
 
-        mecanumDrive.waitFor(12.8, "Releasing robot");
+            mecanumDrive.robot.liftM.setPower(1);
+            telemetry.addData("Digital Touch", "Is Not Pressed");
+        } else {
+            mecanumDrive.robot.liftM.setPower(0);
+            telemetry.addData("Digital Touch", "Is Pressed");
+        }
+      //  mecanumDrive.robot.liftM.setPower(1);
+
+        //mecanumDrive.waitFor(12.8, "Releasing robot");
 
         mecanumDrive.robot.liftM.setPower(0);
 
