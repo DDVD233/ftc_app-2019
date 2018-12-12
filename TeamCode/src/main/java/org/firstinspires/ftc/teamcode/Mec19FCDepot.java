@@ -44,8 +44,8 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
  * It is still under work.
  */
 
-@Autonomous(name="Mec19FCrater")
-public class Mec19FCrater extends LinearOpMode {
+@Autonomous(name="Mec19FCDepot")
+public class Mec19FCDepot extends LinearOpMode {
 
     /* Declare OpMode members. */
     //private ElapsedTime runtime = new ElapsedTime();
@@ -70,15 +70,12 @@ public class Mec19FCrater extends LinearOpMode {
 
         waitForStart();
 
-        if (mecanumDrive.robot.digitalSwitch.getState()) {
-
+        while (mecanumDrive.robot.digitalSwitch.getState()) {
             mecanumDrive.robot.liftM.setPower(1);
-            telemetry.addData("Digital Touch", "Is Not Pressed");
-        } else {
-            mecanumDrive.robot.liftM.setPower(0);
-            telemetry.addData("Digital Touch", "Is Pressed");
         }
-      //  mecanumDrive.robot.liftM.setPower(1);
+
+        mecanumDrive.robot.liftM.setPower(0);
+        //  mecanumDrive.robot.liftM.setPower(1);
 
         //mecanumDrive.waitFor(12.8, "Releasing robot");
 

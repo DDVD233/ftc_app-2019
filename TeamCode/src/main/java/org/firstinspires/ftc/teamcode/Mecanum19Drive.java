@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -30,6 +33,8 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
 public class Mecanum19Drive {
     Mecanum19 robot = null;
     private LinearOpMode opMode = null;
+    SamplingOrderDetector detector;
+
 
     private static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
@@ -172,54 +177,39 @@ public class Mecanum19Drive {
         }
     }
 
+    void initDetector() {
+        detector = new SamplingOrderDetector();
+        detector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
 
+        detector.downscale = 0.4; // How much to downscale the input frames
 
-//    void liftMotorDrive(double speed,
-//                        double distanceInInch,
-//                        double timeoutS) {
-//        int newLiftTarget;
-//
-//
-//        // Ensure that the opmode is still active
-//        if (opMode.opModeIsActive()) {
-//            newLiftTarget = robot.liftMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-//            // Determine new target position, and pass to motor controller
-//
-//            robot.liftMotor.setTargetPosition(newLiftTarget);
-//
-//            // Turn On RUN_TO_POSITION
-//            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            // reset the timeout time and start motion.
-//            runtime.reset();
-//            robot.liftMotor.setPower(Math.abs(speed));
-//
-//            // keep looping while we are still active, and there is time left, and both motors are running.
-//            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//            // always end the motion as soon as possible.
-//            // However, if you require that BOTH motors have finished their moves before the robot continues
-//            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//            while (opMode.opModeIsActive() &&
-//                    (runtime.seconds() < timeoutS) &&
-//                    robot.liftMotor.isBusy()) {
-//
-//                // Display it for the driver.
-//                opMode.telemetry.addData("Path1",  "Lift mptor running to %7d", newLiftTarget);
-//                opMode.telemetry.addData("Path2",  "Running at %7d",
-//                        robot.liftMotor.getCurrentPosition());
-//                opMode.telemetry.update();
-//            }
-//
-//            // Stop all motion;
-//            robot.liftMotor.setPower(0);
-//
-//            // Turn off RUN_TO_POSITION
-//            robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//            //  sleep(250);   // optional pause after each move
-//        }
-//    }
+        // Optional Tuning
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.001;
+
+        detector.ratioScorer.weight = 15;
+        detector.ratioScorer.perfectRatio = 1.0;
+
+        detector.enable();
+    }
+
+    void kickGoldCube() {
+        while (opMode.opModeIsActive() && detector.getCurrentOrder() == SamplingOrderDetector.GoldLocation.UNKNOWN) {
+            opMode.telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
+            opMode.telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
+        }
+
+        // Move based on the position.
+        double distanceApart = 14.5;
+        switch (detector.getCurrentOrder()) {
+            case LEFT:
+                encoderDriveMove(1.0, Direction.LEFT, distanceApart, 3);
+            case RIGHT:
+                encoderDriveMove(1.0, Direction.RIGHT, distanceApart, 3);
+        }
+    }
 
     void gyroInit() {
         // Set up the parameters with which we will use our IMU. Note that integration
