@@ -30,9 +30,10 @@
 package org.firstinspires.ftc.teamcode.legacy;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-
+@Disabled
 @Autonomous(name="M Encoder Blue Left")
 public class MecanumAutoEncoderBlueLeft extends LinearOpMode {
 

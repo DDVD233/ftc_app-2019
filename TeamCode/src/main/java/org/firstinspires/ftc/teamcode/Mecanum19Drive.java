@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -33,7 +34,7 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
 public class Mecanum19Drive {
     Mecanum19 robot = null;
     private LinearOpMode opMode = null;
-    SamplingOrderDetector detector;
+    GoldAlignDetector detector;
 
 
     private static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
@@ -178,37 +179,39 @@ public class Mecanum19Drive {
     }
 
     void initDetector() {
-        detector = new SamplingOrderDetector();
+        detector = new GoldAlignDetector();
         detector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
+        // Optional Tuning
+        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
         detector.downscale = 0.4; // How much to downscale the input frames
 
-        // Optional Tuning
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-        detector.maxAreaScorer.weight = 0.001;
+        detector.maxAreaScorer.weight = 0.005;
 
-        detector.ratioScorer.weight = 15;
+        detector.ratioScorer.weight = 5;
         detector.ratioScorer.perfectRatio = 1.0;
 
         detector.enable();
     }
 
     void kickGoldCube() {
-        while (opMode.opModeIsActive() && detector.getCurrentOrder() == SamplingOrderDetector.GoldLocation.UNKNOWN) {
-            opMode.telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
-            opMode.telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
-        }
+        double xPosition = detector.getYPosition();
+
+        encoderDriveMove(1.0, Direction.RIGHT, 5, 3);
+        encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
+        encoderDriveMove(1.0, Direction.LEFT, 5, 3);
 
         // Move based on the position.
-        double distanceApart = 14.5;
-        switch (detector.getCurrentOrder()) {
-            case LEFT:
-                encoderDriveMove(1.0, Direction.LEFT, distanceApart, 3);
-            case RIGHT:
-                encoderDriveMove(1.0, Direction.RIGHT, distanceApart, 3);
+        if (xPosition < 100)  {
+            encoderDriveMove(1.0, Direction.LEFT, 28, 3);
+        } else if (xPosition > 350) {
+            encoderDriveMove(1.0, Direction.RIGHT, 18, 3);
         }
+        encoderDriveMove(1.0, Direction.FORWARD, 20, 3);
     }
 
     void gyroInit() {

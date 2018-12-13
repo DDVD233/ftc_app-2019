@@ -70,11 +70,17 @@ public class Mec19FCDepot extends LinearOpMode {
 
         waitForStart();
 
-        while (mecanumDrive.robot.digitalSwitch.getState()) {
-            mecanumDrive.robot.liftM.setPower(1);
+        while (opModeIsActive()) {
+            if (mecanumDrive.robot.digitalSwitch.getState()) {
+                mecanumDrive.robot.liftM.setPower(1);
+                telemetry.addData("Digital Touch", "Is Not Pressed");
+            } else {
+                mecanumDrive.robot.liftM.setPower(0);
+                telemetry.addData("Digital Touch", "Is Pressed");
+                break;
+            }
         }
 
-        mecanumDrive.robot.liftM.setPower(0);
         //  mecanumDrive.robot.liftM.setPower(1);
 
         //mecanumDrive.waitFor(12.8, "Releasing robot");
@@ -87,6 +93,7 @@ public class Mec19FCDepot extends LinearOpMode {
 
         mecanumDrive.kickGoldCube();
 
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 20, 5); // Move forward and kick the ball
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 30    , 5);
+        // Move forward and kick the ball
     }
 }
