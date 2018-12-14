@@ -76,6 +76,13 @@ public class Mecanum19Drive {
         robot.liftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    /**
+     * Convenient function for setting wheel powers.
+     * @param LFPower Power of left front wheel
+     * @param RFPower Power of right front wheel
+     * @param LRPower Power of left rear wheel
+     * @param RRPower Power of right rear wheel
+     */
     void setWheelPower(double LFPower,
                        double RFPower,
                        double LRPower,
@@ -86,7 +93,16 @@ public class Mecanum19Drive {
         robot.RRMotor.setPower(RRPower);
     }
 
-    // From Mecanum 1. Move the robot using encoders.
+    /**
+     * Move the robot using encoders. This is primarily used in autonomous mode.
+     * Thanks to the Mecanum wheel, the robot can move sideways. See @param Direction.
+     * @param speed The speed of the robot, from 0 to 1.
+     * @param Direction The direction of the move. Choices: LEFT, RIGHT, FORWARD and BACKWARD
+     * @param distanceInInch The distance of this move in inches.
+     * @param timeoutS The timeout.
+     *                 Specify how long do you want to wait
+     *                 so that the robot won't stuck on one move.
+     */
     void encoderDriveMove(double speed,
                           Direction Direction,
                           double distanceInInch,
@@ -101,28 +117,44 @@ public class Mecanum19Drive {
         if (opMode.opModeIsActive()) {
             switch (Direction) {
                 case LEFT:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case RIGHT:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case BACKWARD:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case FORWARD:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
             }
             // Determine new target position, and pass to motor controller
@@ -202,6 +234,8 @@ public class Mecanum19Drive {
         encoderDriveMove(1.0, Direction.LEFT, 5, 3);
 
         // Move based on the position.
+        // Range: 0 to 450
+        // A small xPosition means the gold cube is on the left oof the screen.
         if (xPosition < 100)  {
             encoderDriveMove(1.0, Direction.LEFT, 28, 3);
         } else if (xPosition > 350) {
