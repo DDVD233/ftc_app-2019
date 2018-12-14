@@ -17,10 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.legacy.Direction;
 
 /**
@@ -319,30 +315,18 @@ public class Mecanum19Drive {
 
     void move(Direction direction, double power) {
         switch (direction) {
+            // LF, RF, LR, RR
             case LEFT:
-                robot.LRMotor.setPower(power);
-                robot.RRMotor.setPower(-power);
-                robot.LFMotor.setPower(-power);
-                robot.RFMotor.setPower(power);
-
+                setWheelPower(-power, power, power, -power);
                 break;
             case RIGHT:
-                robot.LRMotor.setPower(-power);
-                robot.RRMotor.setPower(power);
-                robot.LFMotor.setPower(power);
-                robot.RFMotor.setPower(-power);
+                setWheelPower(power, -power, -power, power);
                 break;
             case BACKWARD:
-                robot.LRMotor.setPower(-power);
-                robot.RRMotor.setPower(-power);
-                robot.LFMotor.setPower(-power);
-                robot.RFMotor.setPower(-power);
+                setWheelPower(-power, -power, -power, -power);
                 break;
             case FORWARD:
-                robot.LRMotor.setPower(power);
-                robot.RRMotor.setPower(power);
-                robot.LFMotor.setPower(power);
-                robot.RFMotor.setPower(power);
+                setWheelPower(power, power, power, power);
                 break;
         }
     }

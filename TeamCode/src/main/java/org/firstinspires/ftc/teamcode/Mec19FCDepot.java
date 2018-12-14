@@ -67,6 +67,7 @@ public class Mec19FCDepot extends LinearOpMode {
         telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
 
         mecanumDrive.initDetector();
+        mecanumDrive.gyroInit();
 
         waitForStart();
 
@@ -81,19 +82,12 @@ public class Mec19FCDepot extends LinearOpMode {
             }
         }
 
-        //  mecanumDrive.robot.liftM.setPower(1);
 
-        //mecanumDrive.waitFor(12.8, "Releasing robot");
-
-        mecanumDrive.robot.liftM.setPower(0);
-
-        mecanumDrive.encoderDriveMove(1, Direction.RIGHT, 10, 3);
-        mecanumDrive.encoderDriveMove(1, Direction.FORWARD, 5, 3);
-        mecanumDrive.encoderDriveMove(1, Direction.LEFT, 10, 3);
 
         mecanumDrive.kickGoldCube();
 
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 30    , 5);
-        // Move forward and kick the ball
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 15, 3);
+        mecanumDrive.gyroTurn(1.0, 45);
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 10, 3);
     }
 }
