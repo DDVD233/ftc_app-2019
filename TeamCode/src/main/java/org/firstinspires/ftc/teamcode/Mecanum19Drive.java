@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,10 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.legacy.Direction;
 
 /**
@@ -30,6 +30,8 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
 public class Mecanum19Drive {
     Mecanum19 robot = null;
     private LinearOpMode opMode = null;
+    GoldAlignDetector detector;
+
 
     private static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
@@ -74,6 +76,13 @@ public class Mecanum19Drive {
         robot.liftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    /**
+     * Convenient function for setting wheel powers.
+     * @param LFPower Power of left front wheel
+     * @param RFPower Power of right front wheel
+     * @param LRPower Power of left rear wheel
+     * @param RRPower Power of right rear wheel
+     */
     void setWheelPower(double LFPower,
                        double RFPower,
                        double LRPower,
@@ -84,7 +93,16 @@ public class Mecanum19Drive {
         robot.RRMotor.setPower(RRPower);
     }
 
-    // From Mecanum 1. Move the robot using encoders.
+    /**
+     * Move the robot using encoders. This is primarily used in autonomous mode.
+     * Thanks to the Mecanum wheel, the robot can move sideways. See @param Direction.
+     * @param speed The speed of the robot, from 0 to 1.
+     * @param Direction The direction of the move. Choices: LEFT, RIGHT, FORWARD and BACKWARD
+     * @param distanceInInch The distance of this move in inches.
+     * @param timeoutS The timeout.
+     *                 Specify how long do you want to wait
+     *                 so that the robot won't stuck on one move.
+     */
     void encoderDriveMove(double speed,
                           Direction Direction,
                           double distanceInInch,
@@ -99,28 +117,44 @@ public class Mecanum19Drive {
         if (opMode.opModeIsActive()) {
             switch (Direction) {
                 case LEFT:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case RIGHT:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case BACKWARD:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            - (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
                 case FORWARD:
-                    newLeftRearTarget = robot.LRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightRearTarget = robot.RRMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-                    newRightFrontTarget = robot.RFMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftRearTarget = robot.LRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightRearTarget = robot.RRMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newLeftFrontTarget = robot.LFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
+                    newRightFrontTarget = robot.RFMotor.getCurrentPosition()
+                            + (int)(distanceInInch * COUNTS_PER_INCH);
                     break;
             }
             // Determine new target position, and pass to motor controller
@@ -172,54 +206,43 @@ public class Mecanum19Drive {
         }
     }
 
+    void initDetector() {
+        detector = new GoldAlignDetector();
+        detector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
 
+        // Optional Tuning
+        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
+        detector.downscale = 0.4; // How much to downscale the input frames
 
-//    void liftMotorDrive(double speed,
-//                        double distanceInInch,
-//                        double timeoutS) {
-//        int newLiftTarget;
-//
-//
-//        // Ensure that the opmode is still active
-//        if (opMode.opModeIsActive()) {
-//            newLiftTarget = robot.liftMotor.getCurrentPosition() + (int)(distanceInInch * COUNTS_PER_INCH);
-//            // Determine new target position, and pass to motor controller
-//
-//            robot.liftMotor.setTargetPosition(newLiftTarget);
-//
-//            // Turn On RUN_TO_POSITION
-//            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            // reset the timeout time and start motion.
-//            runtime.reset();
-//            robot.liftMotor.setPower(Math.abs(speed));
-//
-//            // keep looping while we are still active, and there is time left, and both motors are running.
-//            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//            // always end the motion as soon as possible.
-//            // However, if you require that BOTH motors have finished their moves before the robot continues
-//            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//            while (opMode.opModeIsActive() &&
-//                    (runtime.seconds() < timeoutS) &&
-//                    robot.liftMotor.isBusy()) {
-//
-//                // Display it for the driver.
-//                opMode.telemetry.addData("Path1",  "Lift mptor running to %7d", newLiftTarget);
-//                opMode.telemetry.addData("Path2",  "Running at %7d",
-//                        robot.liftMotor.getCurrentPosition());
-//                opMode.telemetry.update();
-//            }
-//
-//            // Stop all motion;
-//            robot.liftMotor.setPower(0);
-//
-//            // Turn off RUN_TO_POSITION
-//            robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//            //  sleep(250);   // optional pause after each move
-//        }
-//    }
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.005;
+
+        detector.ratioScorer.weight = 5;
+        detector.ratioScorer.perfectRatio = 1.0;
+
+        detector.enable();
+    }
+
+    void kickGoldCube() {
+        double xPosition = detector.getYPosition();
+
+        encoderDriveMove(1.0, Direction.RIGHT, 5, 3);
+        encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
+        encoderDriveMove(1.0, Direction.LEFT, 5, 3);
+
+        // Move based on the position.
+        // Range: 0 to 450
+        // A small xPosition means the gold cube is on the left oof the screen.
+        if (xPosition < 100)  {
+            encoderDriveMove(1.0, Direction.LEFT, 28, 3);
+        } else if (xPosition > 350) {
+            encoderDriveMove(1.0, Direction.RIGHT, 18, 3);
+        }
+        encoderDriveMove(1.0, Direction.FORWARD, 20, 3);
+    }
 
     void gyroInit() {
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -326,30 +349,18 @@ public class Mecanum19Drive {
 
     void move(Direction direction, double power) {
         switch (direction) {
+            // LF, RF, LR, RR
             case LEFT:
-                robot.LRMotor.setPower(power);
-                robot.RRMotor.setPower(-power);
-                robot.LFMotor.setPower(-power);
-                robot.RFMotor.setPower(power);
-
+                setWheelPower(-power, power, power, -power);
                 break;
             case RIGHT:
-                robot.LRMotor.setPower(-power);
-                robot.RRMotor.setPower(power);
-                robot.LFMotor.setPower(power);
-                robot.RFMotor.setPower(-power);
+                setWheelPower(power, -power, -power, power);
                 break;
             case BACKWARD:
-                robot.LRMotor.setPower(-power);
-                robot.RRMotor.setPower(-power);
-                robot.LFMotor.setPower(-power);
-                robot.RFMotor.setPower(-power);
+                setWheelPower(-power, -power, -power, -power);
                 break;
             case FORWARD:
-                robot.LRMotor.setPower(power);
-                robot.RRMotor.setPower(power);
-                robot.LFMotor.setPower(power);
-                robot.RFMotor.setPower(power);
+                setWheelPower(power, power, power, power);
                 break;
         }
     }

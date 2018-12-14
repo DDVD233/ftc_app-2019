@@ -27,23 +27,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.legacy;
+package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Disabled
-@Autonomous(name="M Encoder Red Right 2")
-public class MecanumAutoEncoderRedRight2 extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.legacy.Direction;
+
+
+/**
+ * This is the autonomous mode for the robot Mecanum19.
+ * Run this program if the robot is facing the crater at the start of the match.
+ * It is still under work.
+ */
+
+@Autonomous(name="Mec19FCDepot")
+public class Mec19FCDepot extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Mecanum1 robot   = new Mecanum1();   // Use Mecanum 1 robot
     //private ElapsedTime runtime = new ElapsedTime();
 
     // OpenGLMatrix lastLocation = null;
-    // int a;
+    // int a
 
     @Override
     public void runOpMode() {
@@ -52,13 +60,28 @@ public class MecanumAutoEncoderRedRight2 extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
-        MecanumDrive mecanumDrive = new MecanumDrive(robot, this);
 
-        mecanumDrive.autonomous180II(Team.RED);
+        Mecanum19Drive mecanumDrive = new Mecanum19Drive(this);
+
+        mecanumDrive.setWheelPower(0,0,0,0);
+        telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
+
+        mecanumDrive.initDetector();
+        mecanumDrive.gyroInit();
+
+        waitForStart();
+
+        while (opModeIsActive() && mecanumDrive.robot.digitalSwitch.getState()) {
+            mecanumDrive.robot.liftM.setPower(1);
+            telemetry.addData("Now", "Lowering The Robot");
+        }
+
+
+
+        mecanumDrive.kickGoldCube(); // Identify the Gold Mineral Using OpenCV
+
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 15, 3);
+        mecanumDrive.gyroTurn(1.0, 45);
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 10, 3);
     }
-
-//    String format(OpenGLMatrix transformationMatrix) {
-//        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-//    }
 }

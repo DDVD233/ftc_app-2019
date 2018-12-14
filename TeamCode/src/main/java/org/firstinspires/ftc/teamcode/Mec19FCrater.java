@@ -29,6 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -48,7 +51,7 @@ public class Mec19FCrater extends LinearOpMode {
     //private ElapsedTime runtime = new ElapsedTime();
 
     // OpenGLMatrix lastLocation = null;
-    // int a;
+    // int a
 
     @Override
     public void runOpMode() {
@@ -61,29 +64,29 @@ public class Mec19FCrater extends LinearOpMode {
         Mecanum19Drive mecanumDrive = new Mecanum19Drive(this);
 
         mecanumDrive.setWheelPower(0,0,0,0);
+        telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
+
+        mecanumDrive.initDetector();
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            if (mecanumDrive.robot.digitalSwitch.getState() == true) {
-                mecanumDrive.robot.liftM.setPower(1);
-                telemetry.addData("Digital Touch", "Is Not Pressed");
-            } else {
-                mecanumDrive.robot.liftM.setPower(0);
-                telemetry.addData("Digital Touch", "Is Pressed");
-                break;
-            }
+        while (opModeIsActive() && mecanumDrive.robot.digitalSwitch.getState()) {
+            mecanumDrive.robot.liftM.setPower(1);
+            telemetry.addData("Now", "Lowering The Robot");
         }
+<<<<<<< HEAD
       //  mecanumDrive.robot.liftM.setPower(1);
 
         //mecanumDrive.waitFor(12.8, "Releasing robot");
 
         //mecanumDrive.robot.liftM.setPower(0);
-
-        mecanumDrive.encoderDriveMove(1, Direction.RIGHT, 10, 5);
-
-        mecanumDrive.encoderDriveMove(1, Direction.FORWARD, 42, 9);
+=======
+>>>>>>> 08115efe2310e5eb168aa4ca8a5881d3a2bfa654
 
 
+
+        mecanumDrive.kickGoldCube();
+
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
     }
 }
