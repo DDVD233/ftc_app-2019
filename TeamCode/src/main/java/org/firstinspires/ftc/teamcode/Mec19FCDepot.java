@@ -71,20 +71,14 @@ public class Mec19FCDepot extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            if (mecanumDrive.robot.digitalSwitch.getState()) {
-                mecanumDrive.robot.liftM.setPower(1);
-                telemetry.addData("Digital Touch", "Is Not Pressed");
-            } else {
-                mecanumDrive.robot.liftM.setPower(0);
-                telemetry.addData("Digital Touch", "Is Pressed");
-                break;
-            }
+        while (opModeIsActive() && mecanumDrive.robot.digitalSwitch.getState()) {
+            mecanumDrive.robot.liftM.setPower(1);
+            telemetry.addData("Now", "Lowering The Robot");
         }
 
 
 
-        mecanumDrive.kickGoldCube();
+        mecanumDrive.kickGoldCube(); // Identify the Gold Mineral Using OpenCV
 
         mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 15, 3);
         mecanumDrive.gyroTurn(1.0, 45);
