@@ -80,6 +80,7 @@ public class Mecanum19 {
     public CRServo sweeper = null;
     public Servo   sweeperARM = null;
     public Servo   lid = null;
+    public Servo   mascotArm = null;
 
     public BNO055IMU gyro = null;
     public DigitalChannel digitalSwitch;
@@ -89,6 +90,7 @@ public class Mecanum19 {
 
     public final static double ARM_HOME = 1.0; // 0 -> up; 0.7 -> Right
     public final static double LID_HOME = 0.6;
+    public final static double MASCOT_ARM_HOME = 1.0;
 
     public final static double ARM_MIN_RANGE  = 1.00;
     public final static double ARM_MAX_RANGE  = 0.50;
@@ -143,6 +145,7 @@ public class Mecanum19 {
         mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mainArm.getTargetPosition();
 
+        gyro = hwMap.get(BNO055IMU.class, "imu");
 
         //liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -152,6 +155,8 @@ public class Mecanum19 {
         lid = hwMap.get(Servo.class, "lid");
         sweeperARM.setPosition(ARM_HOME);
         lid.setPosition(LID_HOME);
+        mascotArm = hwMap.get(Servo.class, "mArm");
+        mascotArm.setPosition(MASCOT_ARM_HOME);
     }
 }
 

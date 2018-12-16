@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.legacy.Direction;
@@ -41,6 +42,7 @@ import org.firstinspires.ftc.teamcode.legacy.Direction;
  * It is still under work.
  */
 
+@Disabled
 @Autonomous(name="Mec19TestEncoder")
 public class Mec19TestEncoder extends LinearOpMode {
 

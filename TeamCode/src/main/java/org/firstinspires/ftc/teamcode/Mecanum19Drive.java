@@ -226,7 +226,7 @@ public class Mecanum19Drive {
         detector.enable();
     }
 
-    void kickGoldCube() {
+    Direction kickGoldCube() {
         double xPosition = detector.getYPosition();
 
         encoderDriveMove(1.0, Direction.RIGHT, 5, 3);
@@ -237,11 +237,18 @@ public class Mecanum19Drive {
         // Range: 0 to 450
         // A small xPosition means the gold cube is on the left oof the screen.
         if (xPosition < 100)  {
+            encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
             encoderDriveMove(1.0, Direction.LEFT, 28, 3);
+            encoderDriveMove(1.0, Direction.FORWARD, 13, 3);
+            return Direction.LEFT;
         } else if (xPosition > 350) {
-            encoderDriveMove(1.0, Direction.RIGHT, 18, 3);
+            encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
+            encoderDriveMove(1.0, Direction.RIGHT, 24, 3);
+            encoderDriveMove(1.0, Direction.FORWARD, 13, 3);
+            return Direction.RIGHT;
         }
         encoderDriveMove(1.0, Direction.FORWARD, 20, 3);
+        return Direction.FORWARD;
     }
 
     void gyroInit() {

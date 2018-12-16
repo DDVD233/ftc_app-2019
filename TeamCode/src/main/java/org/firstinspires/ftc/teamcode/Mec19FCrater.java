@@ -75,6 +75,8 @@ public class Mec19FCrater extends LinearOpMode {
             telemetry.addData("Now", "Lowering The Robot");
         }
 
+        mecanumDrive.robot.liftM.setPower(0.0);
+
 
 
         mecanumDrive.kickGoldCube();

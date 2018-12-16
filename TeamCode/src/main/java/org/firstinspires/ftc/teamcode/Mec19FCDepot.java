@@ -29,9 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -72,16 +69,38 @@ public class Mec19FCDepot extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive() && mecanumDrive.robot.digitalSwitch.getState()) {
-            mecanumDrive.robot.liftM.setPower(1);
+            mecanumDrive.robot.liftM.setPower(1.0);
             telemetry.addData("Now", "Lowering The Robot");
+        }
+
+        mecanumDrive.robot.liftM.setPower(0.0);
+
+
+
+        Direction goldPosition = mecanumDrive.kickGoldCube(); // Identify the Gold Mineral Using OpenCV
+
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
+
+        switch (goldPosition) {
+            case LEFT:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
+                mecanumDrive.gyroTurn(1.0, -40);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 27, 3);
+                break;
+            case RIGHT:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
+                mecanumDrive.gyroTurn(1.0, -40);
+                mecanumDrive.encoderDriveMove(1.0, Direction.LEFT, 5, 3);
+                break;
+            case FORWARD:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 23, 3);
+                mecanumDrive.gyroTurn(1.0, -40);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
         }
 
 
 
-        mecanumDrive.kickGoldCube(); // Identify the Gold Mineral Using OpenCV
-
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 15, 3);
-        mecanumDrive.gyroTurn(1.0, 45);
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 10, 3);
+        mecanumDrive.robot.mascotArm.setPosition(0.0);
+        mecanumDrive.waitFor(2.0, "Mascot!");
     }
 }
