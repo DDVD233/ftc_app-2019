@@ -90,7 +90,7 @@ public class Mecanum19 {
 
     public final static double ARM_HOME = 1.0; // 0 -> up; 0.7 -> Right
     public final static double LID_HOME = 0.6;
-    public final static double MASCOT_ARM_HOME = 1.0;
+    public final static double MASCOT_ARM_HOME = 0.85;
 
     public final static double ARM_MIN_RANGE  = 1.00;
     public final static double ARM_MAX_RANGE  = 0.50;

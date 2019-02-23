@@ -77,25 +77,28 @@ public class Mec19FCDepot extends LinearOpMode {
 
 
 
-        Direction goldPosition = mecanumDrive.kickGoldCube(); // Identify the Gold Mineral Using OpenCV
+        Direction goldPosition = mecanumDrive.identifyGoldCube(); // Identify the Gold Mineral Using OpenCV\
 
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
 
         switch (goldPosition) {
             case LEFT:
-                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
-                mecanumDrive.gyroTurn(1.0, -40);
-                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 27, 3);
+                mecanumDrive.gyroTurn(1.0, 45);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 34, 3);
+                mecanumDrive.gyroTurn(1.0, -90);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 49, 3);
                 break;
             case RIGHT:
-                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 17, 3);
-                mecanumDrive.gyroTurn(1.0, -40);
-                mecanumDrive.encoderDriveMove(1.0, Direction.LEFT, 5, 3);
+                mecanumDrive.gyroTurn(1.0, -45);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 34, 3);
+                mecanumDrive.gyroTurn(1.0, 90);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 49, 7);
+                mecanumDrive.gyroTurn(1.0, -90);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
                 break;
             case FORWARD:
-                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 23, 3);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 43, 3);
                 mecanumDrive.gyroTurn(1.0, -40);
-                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 13, 3);
         }
 
 

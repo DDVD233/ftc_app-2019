@@ -29,9 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -79,7 +76,18 @@ public class Mec19FCrater extends LinearOpMode {
 
 
 
-        mecanumDrive.kickGoldCube();
+        Direction position = mecanumDrive.identifyGoldCube();
+
+        switch (position) {
+            case FORWARD:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 25, 3);
+            case RIGHT:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
+                mecanumDrive.encoderDriveMove(0.7, Direction.RIGHT, 32, 5);
+            case LEFT:
+                mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
+                mecanumDrive.encoderDriveMove(0.7, Direction.LEFT, 32, 5);
+        }
 
         mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
     }
