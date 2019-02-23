@@ -61,7 +61,6 @@ public class Mec19FCrater extends LinearOpMode {
         Mecanum19Drive mecanumDrive = new Mecanum19Drive(this);
 
         mecanumDrive.setWheelPower(0,0,0,0);
-        telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
 
         mecanumDrive.initDetector();
 
@@ -86,14 +85,16 @@ public class Mec19FCrater extends LinearOpMode {
         switch (position) {
             case FORWARD:
                 mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 25, 3);
+                break;
             case RIGHT:
                 mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
                 mecanumDrive.encoderDriveMove(0.7, Direction.RIGHT, 32, 5);
+                break;
             case LEFT:
                 mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 7, 3);
                 mecanumDrive.encoderDriveMove(0.7, Direction.LEFT, 32, 5);
         }
 
-        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 5, 3);
+        mecanumDrive.encoderDriveMove(1.0, Direction.FORWARD, 9, 3);
     }
 }

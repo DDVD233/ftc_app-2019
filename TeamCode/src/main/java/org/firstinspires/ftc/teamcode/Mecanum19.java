@@ -80,7 +80,7 @@ public class Mecanum19 {
     //public DcMotor sweeper = null;
     public Servo sweeper = null;   // sweeper is the servo that tilts the plastic tube
     public Servo   sweeperARM = null;
-    public Servo   lid = null;
+//    public Servo   lid = null;
 
     public BNO055IMU gyro = null;
     public DigitalChannel digitalSwitch;
@@ -126,6 +126,7 @@ public class Mecanum19 {
         mainArm.setDirection(DcMotor.Direction.REVERSE);
         Spinner = hwMap.get(DcMotor.class, "Spinner");
         digitalSwitch = hwMap.get(DigitalChannel.class, "dSwitch");
+        gyro = hwMap.get(BNO055IMU.class, "imu");
 
         // Set all motors to zero power
         LFMotor.setPower(0);
@@ -158,9 +159,9 @@ public class Mecanum19 {
         // Define and initialize ALL installed servos.
         sweeperARM  = hwMap.get(Servo.class, "sweeperARM");
         sweeper = hwMap.get(Servo.class, "sweeper");
-        lid = hwMap.get(Servo.class, "lid");
+//        lid = hwMap.get(Servo.class, "lid");
         sweeperARM.setPosition(ARM_HOME);
-        lid.setPosition(LID_HOME);
+//        lid.setPosition(LID_HOME);
         sweeper.setPosition(SWEEPER_HOME);
     }
 }

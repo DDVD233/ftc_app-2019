@@ -104,13 +104,13 @@ public class MrOMecanum19Teleop extends LinearOpMode {
              robot.sweeper.setPosition(Sweeperset);
 
              // lid code
-            if (gamepad2.x)
-                Lidset += LIDSPEED;
-            else if (gamepad2.b)
-                Lidset -= LIDSPEED;
-
-            Lidset = Range.clip(Lidset, 0.5, 1.0);
-            robot.lid.setPosition(Lidset);
+//            if (gamepad2.x)
+//                Lidset += LIDSPEED;
+//            else if (gamepad2.b)
+//                Lidset -= LIDSPEED;
+//
+//            Lidset = Range.clip(Lidset, 0.5, 1.0);
+//            robot.lid.setPosition(Lidset);
 
 
              // lift code
@@ -124,6 +124,7 @@ public class MrOMecanum19Teleop extends LinearOpMode {
             robot.Spinner.setPower(Spinnerspeed);
 
 // Code to move mainArm using encoders and button push
+            int height = 7000;
 
             if (gamepad1.y) {
                 // moving mainArm up
@@ -134,14 +135,14 @@ public class MrOMecanum19Teleop extends LinearOpMode {
                 //Lidset = 1;
                 //robot.lid.setPosition(Lidset); // close lid
                 robot.mainArm.setPower(0.6);
-                int newTarget = robot.mainArm.getCurrentPosition() + 6250; //(int)armTurn;
+                int newTarget = robot.mainArm.getCurrentPosition() + height; //(int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
 
                }
 
             if (gamepad1.a) { // move mainArm back down
                 robot.mainArm.setPower(0.6);
-                int newTarget = robot.mainArm.getCurrentPosition() - 6250; //(int)armTurn;
+                int newTarget = robot.mainArm.getCurrentPosition() - height; //(int)armTurn;
                 robot.mainArm.setTargetPosition(newTarget);
                 //robot.mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
