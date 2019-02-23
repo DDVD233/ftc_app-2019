@@ -103,7 +103,7 @@ public class Mec19FCDepot extends LinearOpMode {
 
 
 
-        mecanumDrive.robot.mascotArm.setPosition(0.0);
+        mecanumDrive.robot.sweeperARM.setPosition(0.0);
         mecanumDrive.waitFor(2.0, "Mascot!");
     }
 }
