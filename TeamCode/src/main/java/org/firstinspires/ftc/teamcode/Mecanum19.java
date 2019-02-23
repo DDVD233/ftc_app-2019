@@ -76,8 +76,9 @@ public class Mecanum19 {
     public DcMotor RRMotor = null;
     public DcMotor liftM   = null;
     public DcMotor mainArm = null;
+    public DcMotor Spinner = null;
     //public DcMotor sweeper = null;
-    public CRServo sweeper = null;
+    public Servo sweeper = null;   // sweeper is the servo that tilts the plastic tube
     public Servo   sweeperARM = null;
     public Servo   lid = null;
 
@@ -87,13 +88,17 @@ public class Mecanum19 {
 //    public Servo    Lclaw        = null;
 //    public Servo    Rclaw        = null;
 
-    public final static double ARM_HOME = 1.0; // 0 -> up; 0.7 -> Right
+    public final static double ARM_HOME = 0.4; // 0 -> up; 0.7 -> Right
     public final static double LID_HOME = 0.6;
+    public final static double SWEEPER_HOME = 0.0;
 
     public final static double ARM_MIN_RANGE  = 1.00;
     public final static double ARM_MAX_RANGE  = 0.50;
     public final static double LID_MIN_RANGE  = 0.60;
     public final static double LID_MAX_RANGE  = 0.8;
+    public final static double SWEEPER_MIN_RANGE  = 0.50;
+    public final static double SWEEPER_MAX_RANGE  = 0.9;
+
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -119,6 +124,7 @@ public class Mecanum19 {
         liftM  = hwMap.get(DcMotor.class, "liftM");
         mainArm = hwMap.get(DcMotor.class, "mainArm");
         mainArm.setDirection(DcMotor.Direction.REVERSE);
+        Spinner = hwMap.get(DcMotor.class, "Spinner");
         digitalSwitch = hwMap.get(DigitalChannel.class, "dSwitch");
 
         // Set all motors to zero power
@@ -126,6 +132,7 @@ public class Mecanum19 {
         RFMotor.setPower(0);
         LRMotor.setPower(0);
         RRMotor.setPower(0);
+        Spinner.setPower(0);
         //   sweeper.setPower(0);
         liftM.setPower(0);
         // sweeper.setPower(0);
@@ -137,6 +144,7 @@ public class Mecanum19 {
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         LRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         mainArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -148,10 +156,11 @@ public class Mecanum19 {
 
         // Define and initialize ALL installed servos.
         sweeperARM  = hwMap.get(Servo.class, "sweeperARM");
-        sweeper = hwMap.get(CRServo.class, "sweeper");
+        sweeper = hwMap.get(Servo.class, "sweeper");
         lid = hwMap.get(Servo.class, "lid");
         sweeperARM.setPosition(ARM_HOME);
         lid.setPosition(LID_HOME);
+        sweeper.setPosition(SWEEPER_HOME);
     }
 }
 

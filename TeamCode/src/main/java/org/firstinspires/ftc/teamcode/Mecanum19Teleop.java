@@ -115,7 +115,7 @@ public class Mecanum19Teleop extends LinearOpMode {
             //robot.liftM.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
             moveMainArm();
-            setSweeperPower();
+//            setSweeperPower();
 
 
             //setLiftMotorPower();
@@ -139,14 +139,14 @@ public class Mecanum19Teleop extends LinearOpMode {
         }
     }
 
-    private void setSweeperPower() {
-        // Sweeper code
-        if (gamepad2.left_bumper)
-            robot.sweeper.setPower(sweeperSPEED);
-        else if (gamepad2.right_bumper)
-            robot.sweeper.setPower(-sweeperSPEED);
-        else robot.sweeper.setPower(0.0);
-    }
+//    private void setSweeperPower() {
+//        // Sweeper code
+//        if (gamepad2.left_bumper)
+//            robot.sweeper.setPower(sweeperSPEED);
+//        else if (gamepad2.right_bumper)
+//            robot.sweeper.setPower(-sweeperSPEED);
+//        else robot.sweeper.setPower(0.0);
+//    }
 
     private void moveMainArm() {
         // Code to move mainArm using encoders and button push
